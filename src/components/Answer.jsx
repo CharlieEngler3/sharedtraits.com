@@ -2,19 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 const drfToken = "189a4491ca26380a7ace390a2d7c4b7a3ba81fbb";
 
-function getCookie(name) {
-    if (!document.cookie) {
-      return null;
-    }
-    const token = document.cookie.split(';')
-      .map(c => c.trim())
-      .filter(c => c.startsWith(name + '='));
-
-    if (token.length === 0) {
-      return null;
-    }
-    return decodeURIComponent(token[0].split('=')[1]);
-  }
+import { getCookie } from '../services/helpers';
 
 const csrfToken = getCookie('csrftoken');
 
@@ -53,13 +41,7 @@ export default function Answer(props){
 
     useEffect(() => {
         const setData = async() => {
-            let currentAnswersArray = await props.currentAnswers.split(",");
-
-            for(let i = 0; i < currentAnswersArray.length; i++){
-                currentAnswersArray[i] = await currentAnswersArray[i].slice(1, -1);
-            }
-
-            setCurrentAnswers(currentAnswersArray);
+            setCurrentAnswers(props.currentAnswers);
         }
 
         setData();

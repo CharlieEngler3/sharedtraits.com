@@ -4,41 +4,44 @@ import Title from "../components/Title";
 
 import Question from "../components/Question";
 import Answer from "../components/Answer";
-            
-const drfToken = "189a4491ca26380a7ace390a2d7c4b7a3ba81fbb";
+
+const { getUser, getQuestion } = require("../services/api.js");
 
 function Home(){
     const [currentQuestionID, setCurrentQuestionID] = useState("");
     const [currentQuestion, setCurrentQuestion] = useState("");
     const [currentAnswers, setCurrentAnswers] = useState("");
     
-    const [selectedQuestion, setSelectedQuestion] = useState(1);
+    function selectQuestion(selectedQuestion){
+        if(window.sessionStorage.getItem("userID")){
+            const userID = window.sessionStorage.getItem("userID");
 
-    function getQuestion(){
-        console.log(selectedQuestion);
-        fetch("http://localhost:8000/api/questions/" + selectedQuestion, {
-            method: "GET",
-            mode: "cors",
-            headers: {
-                "Authorization": "Token " + drfToken,
-            }
-        }).then(res => {
-            res.json().then(data => {
-                setCurrentQuestionID(data.id);
-                setCurrentQuestion(data.question);
-                setCurrentAnswers(data.answers);
+            getUser({"userID": userID}).then(res => {
+                res.json().then(data => {
+                    console.log(data);
+                })
             });
-        });
+            setCurrentQuestion("User ID: " + userID);
+        }
+        else{
+            getQuestion({"questionID": 1}).then(res => {
+                res.json().then(data => {
+                    console.log(data);
+
+                    setCurrentQuestionID(data.id);
+                    setCurrentQuestion(data.question);
+                    setCurrentAnswers(data.answers);
+                });
+            });
+        }
     }
     
     function nextQuestion(){
-        const tempSelectedQuestion = selectedQuestion;
-        setSelectedQuestion(tempSelectedQuestion + 1);
-        getQuestion();
+        selectQuestion(currentQuestionID + 1);
     }
 
     useEffect(() => {
-        getQuestion();
+        selectQuestion(1);
     }, [""])
 
     return(
