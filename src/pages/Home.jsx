@@ -4,51 +4,138 @@ import Title from "../components/Title";
 
 import Question from "../components/Question";
 import Answer from "../components/Answer";
+import SubmitAnswer from "../components/SubmitAnswer";
 
-const { getUser, getQuestion } = require("../services/api.js");
+const { getUserQuestionTags, getQuestion, getUserAnsweredQuestions } = require("../services/api.js");
 
 function Home(){
+    const [userID, setUserID] = useState("");
+
+    const [questionQueue, setQuestionQueue] = useState([]);
+
     const [currentQuestionID, setCurrentQuestionID] = useState("");
     const [currentQuestion, setCurrentQuestion] = useState("");
-    const [currentAnswers, setCurrentAnswers] = useState("");
-    
-    function selectQuestion(selectedQuestion){
-        if(window.sessionStorage.getItem("userID")){
-            const userID = window.sessionStorage.getItem("userID");
+    const [currentAnswerIDs, setCurrentAnswerIDs] = useState("");
+    const [questionType, setQuestionType] = useState("");
 
-            getUser({"userID": userID}).then(res => {
-                res.json().then(data => {
-                    console.log(data);
-                })
+    const [requiresSubmit, setRequiresSubmit] = useState(false);
+    
+    function createQuestionQueue(){
+        // TODO: Add local storage authentication based on the time when the userID was added
+        if(window.localStorage.getItem("userID")){
+            const tempUserID = window.localStorage.getItem("userID");
+
+            getUserQuestionTags(tempUserID).then(res => {
+                getQuestion({ tags: res.data.questionTags }).then(res => {
+                    if(res.data[0]){
+                        handleQueue(res.data[0], tempUserID);
+                    }
+                    else{
+                        // TODO: Randomize the questions being asked at this point
+                        setCurrentQuestion("No more questions to display");
+                    }
+                });
             });
-            setCurrentQuestion("User ID: " + userID);
+
+            setUserID(tempUserID);
         }
         else{
-            getQuestion({"questionID": 1}).then(res => {
-                res.json().then(data => {
-                    console.log(data);
+            setUserID("New User");
 
-                    setCurrentQuestionID(data.id);
-                    setCurrentQuestion(data.question);
-                    setCurrentAnswers(data.answers);
-                });
+            // TODO: Handle proper question tag usage
+            getQuestion({ tags: ["starter-question"] }).then(res => {
+                if(res.data[0]){
+                    handleQueue(res.data[0], "New User");
+                }
+                else{
+                    // TODO: Randomize the questions being asked at this point
+                    setCurrentQuestion("No more questions to display");
+                }
             });
         }
     }
+
+    async function handleQueue(questions, tempUserID){
+        const answeredQuestions = (await getUserAnsweredQuestions(tempUserID)).data.answeredQuestions;
+        
+        questions.forEach(questionData => {
+            if(!answeredQuestions.includes(questionData._id)){
+                questionQueue.push(questionData);
+            }
+        });
+
+        if(questionQueue.length > 0)
+        {
+            setQuestion();
+        }
+        else
+        {
+            // TODO: Ask the user to register at this point with the answers they just provided
+            setCurrentQuestion("No more questions to display");
+        }
+        // TODO: Error handling
+    }
     
-    function nextQuestion(){
-        selectQuestion(currentQuestionID + 1);
+    function nextQuestion(){                
+        if(questionQueue.length == 0)
+        {
+            // TODO: Update the current tags in order to produce new questions after the queue has been exhausted
+            createQuestionQueue();
+        }
+        else
+        {
+            setQuestionQueue(questionQueue[1, questionQueue.length-1]);
+            setQuestion();
+        }
+    }
+
+    function setQuestion(){
+        const currentQuestion = questionQueue[0].question;
+        const currentQuestionType = questionQueue[0].type;
+
+        setCurrentQuestionID(questionQueue[0]._id);
+        setCurrentQuestion(currentQuestion);
+
+        // TODO: Sort answer IDs by the question's answerSorting field
+        setCurrentAnswerIDs(questionQueue[0].answerIDs);
+
+        setQuestionType(currentQuestionType);
+
+        if(currentQuestionType == "Select All"){
+            setRequiresSubmit(true);
+        }
     }
 
     useEffect(() => {
-        selectQuestion(1);
-    }, [""])
+        createQuestionQueue();
+    }, [""]);
 
     return(
         <>
             <Title>Shared Traits</Title>
             <Question currentQuestion={currentQuestion}/>
-            <Answer nextQuestionFunction={nextQuestion} currentAnswers={currentAnswers} currentQuestionID={currentQuestionID}/>
+
+            {currentAnswerIDs && currentAnswerIDs.map((answerID, index) => {
+                return(
+                    <div key={index}>
+                        <Answer
+                            userID={userID} 
+                            answerID={answerID} 
+                            questionID={currentQuestionID} 
+                            nextQuestionFunction={nextQuestion}
+                            questionType={questionType}
+                        />
+                    </div>
+                );
+            })}
+
+            {requiresSubmit &&
+                <SubmitAnswer
+                    userID={userID}
+                    questionID={currentQuestionID}
+                    nextQuestionFunction={nextQuestion}
+                />
+            }
         </>
     );
 }

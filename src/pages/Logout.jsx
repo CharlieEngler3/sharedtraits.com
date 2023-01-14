@@ -8,18 +8,8 @@ function Logout(){
     const [message, setMessage] = useState("");
 
     useEffect(() => {
-        if(window.sessionStorage.getItem("token")){
-            logoutUser(window.sessionStorage.getItem("token")).then(res => {
-                if(res.status == 204){
-                    setMessage("Successfully Logged Out");
-                    window.sessionStorage.clear();
-                    redirect("");
-                }
-                else{
-                    setMessage("Error Logging Out");
-                }
-            }); 
-        }
+        logoutUser();
+        redirect("");
     }, []);
 
     return(

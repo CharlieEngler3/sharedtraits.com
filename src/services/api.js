@@ -1,39 +1,86 @@
-import { getCookie } from "./helpers";
+import axios from 'axios';
 
-const CSRF_TOKEN = getCookie("csrftoken");
-const DRF_TOKEN = "189a4491ca26380a7ace390a2d7c4b7a3ba81fbb";
-const API_URL = "http://localhost:8000/api/";
-
-const POST_PARAMETERS = (data) => {
-    return {
-        method: "POST",
-        mode: "cors",
-        headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json",
-            "X-CSRFToken": CSRF_TOKEN,
-            "Authorization": "Token " + window.sessionStorage.getItem("token"),
-        },
-        body: JSON.stringify(data),
-    }
-}
-
-const GET_PARAMETERS = {
-    method: "GET",
-    mode: "cors",
+const { API_URL } = require("./helpers.js");
+const http = axios.create({
+    baseURL: API_URL,
     headers: {
-        "Authorization": "Token " + DRF_TOKEN,
+        "Content-Type": "application/json"
+    }
+});
+
+export const getUser = id => {
+    return http.get(`/users/${id}`);
+}
+
+export const deleteUser = id => {
+    window.localStorage.removeItem("userID");
+
+    return http.get(`/users/delete/${id}`);
+}
+
+export const getUserQuestionTags = id => {
+    return http.get(`/users/tags/${id}`);
+}
+
+export const getUserAnsweredQuestions = id => {
+    return http.get(`/users/answered-questions/${id}`);
+}
+
+export const registerUser = user => {
+    return http.post(`/users/register`, user);
+}
+
+export const loginUser = user => {
+    return http.post(`/users/login`, user);
+}
+
+export const logoutUser = () => {
+    // TODO: Maybe update login/logout time-date values in database
+    window.localStorage.removeItem("userID");
+    window.localStorage.removeItem("email");
+    window.localStorage.removeItem("username");
+}
+
+export const getQuestion = tags => {
+    return http.post(`/questions`, tags);
+}
+
+export const getAnswer = id => {
+    return http.get(`/answers/${id}`);
+}
+
+export const addUserAnswers = packet => {
+    if(packet.userID == "New User")
+    {
+        const questionID = packet.questionID;
+        const answerIDs = packet.answerIDs;
+
+        const tempAnswer = {
+            questionID: questionID,
+            answerIDs: answerIDs
+        };
+
+        let tempAnswers = [];
+        if(window.sessionStorage.getItem("tempAnswers"))
+        {
+            tempAnswers = JSON.parse(window.sessionStorage.getItem("tempAnswers"));
+
+            tempAnswers = tempAnswers.filter(answer => {
+                return answer.questionID != questionID;
+            });
+        }
+
+        tempAnswers.push(tempAnswer);
+
+        window.sessionStorage.setItem("tempAnswers", JSON.stringify(tempAnswers));
+        window.sessionStorage.removeItem("recordedAnswers");
+    }
+    else
+    {
+        return http.post(`/users/submit-answer`, packet);
     }
 }
 
-export const getUser = (data) => {
-    return fetch(API_URL + "getuser", POST_PARAMETERS(data));
-}
-
-export const getQuestion = (data) => {
-    return fetch(API_URL + "questions", POST_PARAMETERS(data));
-}
-
-export const logoutUser = (token) => {
-    return fetch(API_URL + "logout", POST_PARAMETERS({"Authorization": "Token " + token}));
+export const addQuestion = packet => {
+    return http.post(`/questions/add`, packet);
 }

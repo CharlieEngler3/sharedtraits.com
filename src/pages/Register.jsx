@@ -4,11 +4,8 @@ import TextInput from "../components/inputs/TextInput";
 import PasswordInput from "../components/inputs/PasswordInput";
 import SubmitInput from "../components/inputs/SubmitInput";
 
-const { getCookie, redirect } = require("../services/helpers.js");
-
-const csrfToken = getCookie('csrftoken');
-
-const apiURL = "http://localhost:8000/api/";
+const { redirect } = require("../services/helpers.js");
+const { registerUser } = require("../services/api.js");
 
 function Register(){
     const [username, setUsername] = useState("");
@@ -16,34 +13,50 @@ function Register(){
     const [password, setPassword] = useState("");
     const [repeatPassword, setRepeatPassword] = useState("");
 
-    function Register(){
+    function RegisterUser(){
+        let questionTags = [];
+        let answeredQuestions = [];
+        let answers = [];
+        if(window.sessionStorage.getItem("tempAnswers")){
+            const tempAnswers = JSON.parse(window.sessionStorage.getItem("tempAnswers"));
+
+            tempAnswers.forEach(answer => {
+                answeredQuestions.push(answer.questionID);
+            });
+
+            answers = tempAnswers;
+        }
+        else
+        {
+            questionTags = ["starter-question"];
+        }
+
         if(password == repeatPassword){
             const user = {
-                "username": username,
-                "email": email,
-                "password": password,
-                "tags": {},
+                username: username,
+                email: email,
+                password: password,
+                questionTags: questionTags,
+                answeredQuestions: answeredQuestions,
+                answers: answers 
             }
 
-            fetch(apiURL + "register", {
-                method: "POST",
-                mode: "cors",
-                headers: {
-                    "Accept": "application/json",
-                    "Content-Type": "application/json",
-                    "X-CSRFToken": csrfToken,
-                },
-                body: JSON.stringify(user),
-            }).then(res => {
-                res.json().then(data => {
-                    window.sessionStorage.setItem("token", data.token);
-                    window.sessionStorage.setItem("userID", data.userID);
+            registerUser(user).then(res => {
+                const newUser = res.data;
+                window.localStorage.setItem("userID", newUser.userID);
+                window.localStorage.setItem("email", newUser.email);
+                window.localStorage.setItem("username", newUser.username);
 
-                    redirect("");
-                });
+                window.sessionStorage.clear();
+
+                redirect("");
+            }).catch(error => {
+                // TODO: Better error handling
+                console.log(error.message);
             });
         }
         else{
+            // TODO: Better error handling
             console.error("Passwords do not match.");
         }
     }
@@ -54,7 +67,7 @@ function Register(){
             <TextInput defaultText="Email" callback={setEmail}/>
             <PasswordInput defaultText="Password" callback={setPassword}/>
             <PasswordInput defaultText="Repeat Password" callback={setRepeatPassword}/>
-            <SubmitInput text="Register" callback={Register}/>
+            <SubmitInput text="Register" callback={RegisterUser}/>
         </>
     );
 }

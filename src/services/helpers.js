@@ -17,3 +17,5 @@ export function getCookie(name){
 export function redirect(url){
     window.location.href = baseURL + url;
 }
+
+export const API_URL = "http://localhost:8000";
