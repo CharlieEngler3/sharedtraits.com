@@ -41,10 +41,6 @@ export const logoutUser = () => {
     window.localStorage.removeItem("username");
 }
 
-export const getQuestion = tags => {
-    return http.post(`/questions`, tags);
-}
-
 export const getAnswer = id => {
     return http.get(`/answers/${id}`);
 }
@@ -81,6 +77,22 @@ export const addUserAnswers = packet => {
     }
 }
 
+export const getQuestionsByTag = tags => {
+    return http.post(`/questions`, tags);
+}
+
 export const addQuestion = packet => {
     return http.post(`/questions/add`, packet);
+}
+
+export const getQuestionByQuestion = question => {
+    return http.get(`/questions/${question}`);
+}
+
+export const updateQuestion = packet => {
+    return http.post(`/questions/update`, packet);
+}
+
+export const deleteQuestionAndAnswers = id => {
+    return http.get(`/questions/delete/${id}`);
 }

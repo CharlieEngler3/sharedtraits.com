@@ -121,7 +121,8 @@ function AddQuestionOrAnswer(){
         <>
             <p>Question and Answer Adder</p>
 
-            <input type="text" placeholder="Question" onChange={event => setQuestion(event.target.value)}/>
+            <input type="text" placeholder="Question" style={{width: "100%"}} onChange={event => setQuestion(event.target.value)}/>
+            <br/>
             <input type="text" placeholder="Answer Sorting" onChange={event => setAnswerSorting(event.target.value)}/>
             <input type="text" placeholder="Question Type" onChange={event => setQuestionType(event.target.value)}/>
 

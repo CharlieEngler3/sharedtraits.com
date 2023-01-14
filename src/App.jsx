@@ -9,6 +9,8 @@ const AccountPage = lazy(() => import("./pages/Account"));
 
 // TODO: Delete me for release
 const AddQuestionOrAnswer = lazy(() => import("./pages/AddQuestionOrAnswer"));
+// TODO: Delete me for release
+const EditQuestionOrAnswer = lazy(() => import("./pages/EditQuestionOrAnswer"));
 
 function App(){
     return(
@@ -16,6 +18,8 @@ function App(){
             <Link to="/">Home</Link>
             <br/>
             <Link to="/addquestionoranswer">Question and Answer Adder</Link>
+            <br/>
+            <Link to="/editquestionoranswer">Question and Answer Editor</Link>
 
             {window.localStorage.getItem("userID") ?
                 <>
@@ -43,6 +47,7 @@ function App(){
                     <Route exact path="/account" element={<AccountPage/>}/>
 
                     <Route exact path="/addquestionoranswer" element={<AddQuestionOrAnswer/>}/>
+                    <Route exact path="/editquestionoranswer" element={<EditQuestionOrAnswer/>}/>
                 </Routes>
             </Suspense>
         </Router>

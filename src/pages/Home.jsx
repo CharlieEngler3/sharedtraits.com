@@ -6,7 +6,7 @@ import Question from "../components/Question";
 import Answer from "../components/Answer";
 import SubmitAnswer from "../components/SubmitAnswer";
 
-const { getUserQuestionTags, getQuestion, getUserAnsweredQuestions } = require("../services/api.js");
+const { getUserQuestionTags, getQuestionsByTag, getUserAnsweredQuestions } = require("../services/api.js");
 
 function Home(){
     const [userID, setUserID] = useState("");
@@ -26,7 +26,7 @@ function Home(){
             const tempUserID = window.localStorage.getItem("userID");
 
             getUserQuestionTags(tempUserID).then(res => {
-                getQuestion({ tags: res.data.questionTags }).then(res => {
+                getQuestionsByTag({ tags: res.data.questionTags }).then(res => {
                     if(res.data[0]){
                         handleQueue(res.data[0], tempUserID);
                     }
@@ -43,7 +43,7 @@ function Home(){
             setUserID("New User");
 
             // TODO: Handle proper question tag usage
-            getQuestion({ tags: ["starter-question"] }).then(res => {
+            getQuestionsByTag({ tags: ["starter-question"] }).then(res => {
                 if(res.data[0]){
                     handleQueue(res.data[0], "New User");
                 }
