@@ -112,6 +112,23 @@ function AddQuestionOrAnswer(){
         console.log(newQuestionPacket);
         addQuestion(newQuestionPacket).then(res => {
             console.log(res.data);
+
+            if(res.status == 201){
+                setQuestion("");
+                setAnswerSorting("");
+                setQuestionType("");
+                setQuestionTags([]);
+                setAnswers([]);
+                setAnswerTags([[]]);
+                setAnswerInputs([]);
+                setAnswerInputSize(0);
+                setAnswerTagInputs([[]]);
+                setAnswerTagInputSizes([]);
+                setQuestionTagInputs([]);
+                setQuestionTagInputSize(0);
+
+                forceUpdate();
+            }
         }).catch(error => {
             console.log(error);
         });
@@ -121,10 +138,10 @@ function AddQuestionOrAnswer(){
         <>
             <p>Question and Answer Adder</p>
 
-            <input type="text" placeholder="Question" style={{width: "100%"}} onChange={event => setQuestion(event.target.value)}/>
+            <input type="text" placeholder="Question" value={question} style={{width: "100%"}} onChange={event => setQuestion(event.target.value)}/>
             <br/>
-            <input type="text" placeholder="Answer Sorting" onChange={event => setAnswerSorting(event.target.value)}/>
-            <input type="text" placeholder="Question Type" onChange={event => setQuestionType(event.target.value)}/>
+            <input type="text" placeholder="Answer Sorting" value={answerSorting} onChange={event => setAnswerSorting(event.target.value)}/>
+            <input type="text" placeholder="Question Type" value={questionType} onChange={event => setQuestionType(event.target.value)}/>
 
             <p>Question Tags:</p>
             {questionTagInputs && questionTagInputs.map((questionTagInput, index) => {
