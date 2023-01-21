@@ -122,6 +122,7 @@ function Home(){
                             userID={userID} 
                             answerID={answerID} 
                             questionID={currentQuestionID} 
+                            question={currentQuestion}
                             nextQuestionFunction={nextQuestion}
                             questionType={questionType}
                         />

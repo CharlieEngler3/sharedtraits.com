@@ -1,16 +1,27 @@
 import React, { useState, useEffect } from 'react';
 
+import Other from "./Other";
+
 const { getAnswer } = require("../../services/api.js");
 
 function SelectAll(props){    
     const answerID = props.answerID;
 
+    const [questionID, setQuestionID] = useState("");
+    const [question, setQuestion] = useState("");
     const [answerText, setAnswerText] = useState("");
     const [isSelected, setIsSelected] = useState(false);
+    const [isOther, setIsOther] = useState(false);
+    const [showOther, setShowOther] = useState(false);
 
-    // TODO: Check if this works
     getAnswer(answerID).then(res => {
-        setAnswerText(res.data.answer);
+        const answer = res.data.answer;
+
+        if(answer == "Other"){
+            setIsOther(true);
+        }
+
+        setAnswerText(answer);
     });
 
     const recordAnswer = () => {
@@ -37,6 +48,9 @@ function SelectAll(props){
     };
 
     useEffect(() => {
+        setQuestionID(props.questionID);
+        setQuestion(props.question);
+
         if(window.sessionStorage.getItem("recordedAnswers")){
             const recordedAnswers = JSON.parse(window.sessionStorage.getItem("recordedAnswers"));
 
@@ -48,9 +62,23 @@ function SelectAll(props){
 
     return(
         <>
-            {isSelected
-                ? <button onClick={recordAnswer}>[Selected] {answerText}</button>
-                : <button onClick={recordAnswer}>{answerText}</button>
+            {!isOther
+                    ?
+                        <>
+                            {isSelected
+                                ? <button onClick={recordAnswer}>[Selected] {answerText}</button>
+                                : <button onClick={recordAnswer}>{answerText}</button>
+                            }
+                        </>
+                    :
+                        <button onClick={() => setShowOther(true)}>Other</button>
+            }
+
+            {showOther &&
+                <Other
+                    questionID={questionID}
+                    question={question}
+                />
             }
         </>
     );

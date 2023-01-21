@@ -96,3 +96,7 @@ export const updateQuestion = packet => {
 export const deleteQuestionAndAnswers = id => {
     return http.get(`/questions/delete/${id}`);
 }
+
+export const addQuestionTagSuggestions = packet => {
+    return http.post('/question-tag-suggestions/add', packet);
+}
