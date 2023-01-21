@@ -17,9 +17,8 @@ function SelectAll(props){
     getAnswer(answerID).then(res => {
         const answer = res.data.answer;
 
-        if(answer == "Other"){
+        if(answer == "Other")
             setIsOther(true);
-        }
 
         setAnswerText(answer);
     });

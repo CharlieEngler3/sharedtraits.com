@@ -34,6 +34,7 @@ function Other(props){
 
         addQuestionTagSuggestions(suggestionPacket).then(res => {
             // TODO: Proper response handling
+            // TODO: Add message that says "We'll consider adding those tags in the future"
             console.log(res);
         }).catch(error => {
             // TODO: Proper error handling
