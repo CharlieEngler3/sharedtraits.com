@@ -2,6 +2,7 @@ import React from 'react';
 
 import SelectOne from './answers/SelectOne';
 import SelectAll from './answers/SelectAll';
+import Slider from './answers/Slider';
 
 function Answer(props){
     const questionType = props.questionType;
@@ -29,6 +30,15 @@ function Answer(props){
                     answerID={answerID}
                     questionID={questionID}
                     question={question}
+                />
+            }
+
+            {questionType == "Slider" &&
+                <Slider
+                    userID={userID}
+                    questionID={questionID}
+                    answerID={answerID}
+                    nextQuestionFunction={nextQuestionFunction}
                 />
             }
         </>

@@ -15,7 +15,6 @@ function SelectOne(props){
     const [isOther, setIsOther] = useState(false);
     const [showOther, setShowOther] = useState(false);
 
-    // TODO: Check if this works
     getAnswer(answerID).then(res => {
         const answer = res.data.answer;
         
@@ -24,6 +23,7 @@ function SelectOne(props){
 
         setAnswerText(answer);
     });
+    // TODO: Error handling
 
     const sendAnswer = () => {
         const answerPacket = {

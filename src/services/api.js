@@ -77,6 +77,39 @@ export const addUserAnswers = packet => {
     }
 }
 
+export const addUserSliderAnswer = packet => {
+    if(packet.userID == "New User")
+    {
+        const questionID = packet.questionID;
+        const sliderValue = packet.value;
+        const answerTag = packet.tag;
+
+        const tempAnswer = {
+            questionID: questionID,
+            sliderValue: sliderValue,
+            answerTag: answerTag
+        };
+
+        let tempAnswers = [];
+        if(window.sessionStorage.getItem("tempAnswers"))
+        {
+            tempAnswers = JSON.parse(window.sessionStorage.getItem("tempAnswers"));
+
+            tempAnswers = tempAnswers.filter(answer => {
+                return answer.questionID != questionID;
+            });
+        }
+
+        tempAnswers.push(tempAnswer);
+
+        window.sessionStorage.setItem("tempAnswers", JSON.stringify(tempAnswers));
+    }
+    else
+    {
+        return http.post(`/users/submit-slider-answer`, packet);
+    }
+}
+
 export const getQuestionsByTag = tags => {
     return http.post(`/questions`, tags);
 }
