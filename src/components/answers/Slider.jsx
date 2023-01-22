@@ -44,6 +44,7 @@ function Slider(props){
         addUserSliderAnswer(answerPacket).then(res => {
             // TODO: Proper response handling
             console.log(res);
+            nextQuestionFunction();
         }).catch(error => {
             // TODO: Proper error handling
             console.log(error);

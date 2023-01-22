@@ -27,8 +27,8 @@ function Home(){
 
             getUserQuestionTags(tempUserID).then(res => {
                 getQuestionsByTag({ tags: res.data.questionTags }).then(res => {
-                    if(res.data[0]){
-                        handleQueue(res.data[0], tempUserID);
+                    if(res.data){
+                        handleQueue(res.data, tempUserID);
                     }
                     else{
                         // TODO: Randomize the questions being asked at this point
@@ -76,7 +76,7 @@ function Home(){
         // TODO: Error handling
     }
     
-    function nextQuestion(){                
+    function nextQuestion(){
         if(questionQueue.length == 0)
         {
             // TODO: Update the current tags in order to produce new questions after the queue has been exhausted
@@ -101,6 +101,7 @@ function Home(){
 
         setQuestionType(currentQuestionType);
 
+        // TODO: Handle this better
         if(currentQuestionType == "Select All"){
             setRequiresSubmit(true);
         }
