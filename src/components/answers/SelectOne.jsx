@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import Other from './Other';
 
-const { getAnswer, addUserAnswers } = require("../../services/api.js");
+const { getAnswer, addUserSelectAnswer } = require("../../services/api.js");
 
 function SelectOne(props){    
     const userID = props.userID;
@@ -32,7 +32,7 @@ function SelectOne(props){
             answerIDs: [ answerID ],
         };
 
-        addUserAnswers(answerPacket).then(res => {
+        addUserSelectAnswer(answerPacket).then(res => {
             if(res.status == 200){
                 nextQuestionFunction();
             }

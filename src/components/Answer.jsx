@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import SelectOne from './answers/SelectOne';
 import SelectAll from './answers/SelectAll';
 import Slider from './answers/Slider';
+import Text from './answers/Text';
 
 function Answer(props){
     const questionType = props.questionType;
@@ -38,6 +39,14 @@ function Answer(props){
                     userID={userID}
                     questionID={questionID}
                     answerID={answerID}
+                    nextQuestionFunction={nextQuestionFunction}
+                />
+            }
+
+            {questionType == "Text Input" &&
+                <Text
+                    userID={userID}
+                    questionID={questionID}
                     nextQuestionFunction={nextQuestionFunction}
                 />
             }

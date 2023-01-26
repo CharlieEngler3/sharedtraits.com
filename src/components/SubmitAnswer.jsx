@@ -1,6 +1,6 @@
 import React from 'react';
 
-const { addUserAnswers } = require("../services/api.js");
+const { addUserSelectAnswer } = require("../services/api.js");
 
 function SubmitAnswer(props){
     const userID = props.userID;
@@ -18,7 +18,7 @@ function SubmitAnswer(props){
                 answerIDs: recordedAnswers,
             }
 
-            addUserAnswers(answerPacket).then(res => {
+            addUserSelectAnswer(answerPacket).then(res => {
                 if(res.status == 200){
                     window.sessionStorage.removeItem("recordedAnswers");
 

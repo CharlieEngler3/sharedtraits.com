@@ -45,35 +45,23 @@ export const getAnswer = id => {
     return http.get(`/answers/${id}`);
 }
 
-export const addUserAnswers = packet => {
+export const addUserSelectAnswer = packet => {
     if(packet.userID == "New User")
     {
         const questionID = packet.questionID;
         const answerIDs = packet.answerIDs;
 
         const tempAnswer = {
+            type: "Select",
             questionID: questionID,
             answerIDs: answerIDs
         };
 
-        let tempAnswers = [];
-        if(window.sessionStorage.getItem("tempAnswers"))
-        {
-            tempAnswers = JSON.parse(window.sessionStorage.getItem("tempAnswers"));
-
-            tempAnswers = tempAnswers.filter(answer => {
-                return answer.questionID != questionID;
-            });
-        }
-
-        tempAnswers.push(tempAnswer);
-
-        window.sessionStorage.setItem("tempAnswers", JSON.stringify(tempAnswers));
-        window.sessionStorage.removeItem("recordedAnswers");
+        addTempAnswer(tempAnswer);
     }
     else
     {
-        return http.post(`/users/submit-answer`, packet);
+        return http.post(`/users/submit-select-answer`, packet);
     }
 }
 
@@ -85,28 +73,35 @@ export const addUserSliderAnswer = packet => {
         const answerTag = packet.tag;
 
         const tempAnswer = {
+            type: "Slider",
             questionID: questionID,
             sliderValue: sliderValue,
             answerTag: answerTag
         };
 
-        let tempAnswers = [];
-        if(window.sessionStorage.getItem("tempAnswers"))
-        {
-            tempAnswers = JSON.parse(window.sessionStorage.getItem("tempAnswers"));
-
-            tempAnswers = tempAnswers.filter(answer => {
-                return answer.questionID != questionID;
-            });
-        }
-
-        tempAnswers.push(tempAnswer);
-
-        window.sessionStorage.setItem("tempAnswers", JSON.stringify(tempAnswers));
+        addTempAnswer(tempAnswer);
     }
     else
     {
         return http.post(`/users/submit-slider-answer`, packet);
+    }
+}
+
+export const addUserTextAnswer = packet => {
+    if(packet.userID == "New User")
+    {
+        const questionID = packet.questionID;
+        const answers = packet.answers;
+
+        const tempAnswer = {
+            type: "Text Input",
+            questionID: questionID,
+            answers: answers
+        };
+    }
+    else
+    {
+        return http.post(`/users/submit-text-answer`, packet);
     }
 }
 
@@ -132,4 +127,21 @@ export const deleteQuestionAndAnswers = id => {
 
 export const addQuestionTagSuggestions = packet => {
     return http.post('/question-tag-suggestions/add', packet);
+}
+
+const addTempAnswer = tempAnswer => {
+    let tempAnswers = [];
+    if(window.sessionStorage.getItem("tempAnswers"))
+    {
+        tempAnswers = JSON.parse(window.sessionStorage.getItem("tempAnswers"));
+
+        tempAnswers = tempAnswers.filter(answer => {
+            return answer.questionID != questionID;
+        });
+    }
+
+    tempAnswers.push(tempAnswer);
+
+    window.sessionStorage.setItem("tempAnswers", JSON.stringify(tempAnswers));
+    window.sessionStorage.removeItem("recordedAnswers");
 }
