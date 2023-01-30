@@ -1,7 +1,7 @@
 import React, { Suspense, lazy } from "react";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 
-const HomePage = lazy(() => import("./pages/Home"));
+const SurveyPage = lazy(() => import("./pages/Survey"));
 const LoginPage = lazy(() => import("./pages/Login"));
 const RegisterPage = lazy(() => import("./pages/Register"));
 const LogoutPage = lazy(() => import("./pages/Logout"));
@@ -40,7 +40,7 @@ function App(){
             
             <Suspense fallback={<div>Loading...</div>}>
                 <Routes>
-                    <Route exact path="/" element={<HomePage/>}/>
+                    <Route exact path="/" element={<SurveyPage/>}/>
                     <Route exact path="/login" element={<LoginPage/>}/>
                     <Route exact path="/register" element={<RegisterPage/>}/>
                     <Route exact path="/logout" element={<LogoutPage/>}/>

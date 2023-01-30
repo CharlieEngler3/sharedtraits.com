@@ -6,7 +6,7 @@ import Question from "../components/Question";
 import Answer from "../components/Answer";
 import SubmitAnswer from "../components/SubmitAnswer";
 
-const { getUserQuestionTags, getQuestionsByTag, getUserAnsweredQuestions } = require("../services/api.js");
+const { getUserQuestionTags, getQuestionsByTag, getUserAnsweredQuestions, getAnswer } = require("../services/api.js");
 
 function Home(){
     const [userID, setUserID] = useState("");
@@ -17,6 +17,7 @@ function Home(){
     const [currentQuestion, setCurrentQuestion] = useState("");
     const [currentAnswerIDs, setCurrentAnswerIDs] = useState("");
     const [questionType, setQuestionType] = useState("");
+    const [sortingType, setSortingType] = useState("");
 
     const [requiresSubmit, setRequiresSubmit] = useState(false);
     
@@ -89,22 +90,43 @@ function Home(){
         }
     }
 
-    function setQuestion(){
+    const setQuestion = async () => {
         const currentQuestion = questionQueue[0].question;
         const currentQuestionType = questionQueue[0].type;
+        const currentSortingType = questionQueue[0].answerSorting;
+        const currentAnswerIDs = questionQueue[0].answerIDs;
 
         setCurrentQuestionID(questionQueue[0]._id);
         setCurrentQuestion(currentQuestion);
 
-        // TODO: Sort answer IDs by the question's answerSorting field
-        setCurrentAnswerIDs(questionQueue[0].answerIDs);
-
         setQuestionType(currentQuestionType);
+        setSortingType(currentSortingType);
 
         // TODO: Handle this better
         if(currentQuestionType == "Select All"){
             setRequiresSubmit(true);
         }
+
+        // TODO: Make sure the other option always comes at the end
+        if(currentSortingType == "alphabetical")
+        {
+            const answers = [];
+            for(let i = 0; i < currentAnswerIDs.length; i++)
+            {
+                // TODO: Error handling
+                const currentAnswer = await getAnswer(currentAnswerIDs[i]);
+                answers.push(currentAnswer);
+            }
+
+            answers.sort((a, b) => a.data.answer.localeCompare(b.data.answer));
+        
+            currentAnswerIDs.length = 0;
+            answers.forEach(answer => {
+                currentAnswerIDs.push(answer.data._id);
+            });
+        }
+
+        setCurrentAnswerIDs(currentAnswerIDs);
     }
 
     useEffect(() => {
