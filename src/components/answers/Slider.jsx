@@ -76,14 +76,19 @@ function Slider(props){
         <>
             <p>{currentValue.toString()} {units}</p>
 
-            <input
-                type="range"
-                onChange={event => changeValue(event)}
-                min={minValue.toString()}
-                max={maxValue.toString()}
-                value={currentValue.toString()}
-            />
-        
+            <div style={{display: "inline-block"}}>
+                <p style={{display: "inline-block"}}>&lt;{minValue} {units}</p>
+                <input
+                    type="range"
+                    style={{display: "inline-block"}}
+                    onChange={event => changeValue(event)}
+                    min={minValue.toString()}
+                    max={maxValue.toString()}
+                    value={currentValue.toString()}
+                />
+                <p style={{display: "inline-block"}}>&gt;{maxValue} {units}</p>
+            </div>
+            <br/>
             <button onClick={sendAnswer}>SUBMIT</button>
         </>
     );
