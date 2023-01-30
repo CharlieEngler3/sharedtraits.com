@@ -1,9 +1,5 @@
 import React, { useState } from "react";
 
-import TextInput from "../components/inputs/TextInput";
-import PasswordInput from "../components/inputs/PasswordInput";
-import SubmitInput from "../components/inputs/SubmitInput";
-
 const { redirect } = require("../services/helpers.js");
 const { loginUser } = require("../services/api.js");
 
@@ -29,9 +25,20 @@ function Login(){
 
     return(
         <>
-            <TextInput defaultText="Email" callback={setEmail}/>
-            <PasswordInput defaultText="Password" callback={setPassword}/>
-            <SubmitInput text="Log In" callback={Login}/>
+            <input
+                type="text"
+                value={email}
+                placeholder="Email"
+                onChange={event => setEmail(event.target.value)}
+            />
+
+            <input
+                type="password"
+                placeholder="Password"
+                onChange={event => setPassword(event.target.value)}
+            />
+
+            <button onClick={Login}>Log In</button>
         </>
     );
 }

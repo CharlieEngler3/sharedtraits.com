@@ -1,9 +1,5 @@
 import React, { useState } from "react";
 
-import TextInput from "../components/inputs/TextInput";
-import PasswordInput from "../components/inputs/PasswordInput";
-import SubmitInput from "../components/inputs/SubmitInput";
-
 const { redirect } = require("../services/helpers.js");
 const { registerUser } = require("../services/api.js");
 
@@ -63,11 +59,33 @@ function Register(){
 
     return(
         <>
-            <TextInput defaultText="Username" callback={setUsername}/>
-            <TextInput defaultText="Email" callback={setEmail}/>
-            <PasswordInput defaultText="Password" callback={setPassword}/>
-            <PasswordInput defaultText="Repeat Password" callback={setRepeatPassword}/>
-            <SubmitInput text="Register" callback={RegisterUser}/>
+            <input
+                type="text"
+                value={username}
+                placeholder="Username"
+                onChange={event => setUsername(event.target.value)}
+            />
+
+            <input
+                type="text"
+                value={email}
+                placeholder="Email"
+                onChange={event => setEmail(event.target.value)}
+            />
+
+            <input
+                type="password"
+                placeholder="Password"
+                onChange={event => setPassword(event.target.value)}
+            />
+
+            <input
+                type="password"
+                placeholder="Repeat Password"
+                onChange={event => setRepeatPassword(event.target.value)}
+            />
+
+            <button onClick={RegisterUser}>Register</button>
         </>
     );
 }

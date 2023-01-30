@@ -1,7 +1,5 @@
 import React, { useReducer, useState, useEffect } from 'react';
 
-import TextInput from "../inputs/TextInput";
-
 const { addQuestionTagSuggestions } = require("../../services/api.js");
 
 function Other(props){
@@ -11,10 +9,10 @@ function Other(props){
     const [question, setQuestion] = useState("");
     const [tags, setTags] = useState([]);
 
-    const changeTag = (tagText, index) => {
+    const changeTag = (event, index) => {
         const currentTags = tags;
 
-        currentTags[index] = tagText;
+        currentTags[index] = event.target.value;
 
         setTags(currentTags);
     }
@@ -55,9 +53,10 @@ function Other(props){
             {tags && tags.map((tag, index) => {
                 return(
                     <div key={index}>
-                        <TextInput
-                            defaultText="Suggest a tag"
-                            callback={tagText => changeTag(tagText, index)}
+                        <input type="text"
+                            value={tag}
+                            placeholder="Suggest a tag"
+                            onChange={event => changeTag(event, index)}
                         />
                     </div>
                 );
