@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import Other from './Other';
 
@@ -15,16 +15,6 @@ function SelectOne(props){
     const [isOther, setIsOther] = useState(false);
     const [showOther, setShowOther] = useState(false);
 
-    getAnswer(answerID).then(res => {
-        const answer = res.data.answer;
-        
-        if(answer == "Other")
-            setIsOther(true);
-
-        setAnswerText(answer);
-    });
-    // TODO: Error handling
-
     const sendAnswer = () => {
         const answerPacket = {
             userID: userID,
@@ -39,6 +29,18 @@ function SelectOne(props){
         });
         // TODO: Error handling
     };
+
+    useEffect(() => {
+        getAnswer(answerID).then(res => {
+            const answer = res.data.answer;
+            
+            if(answer == "Other")
+                setIsOther(true);
+
+            setAnswerText(answer);
+        });
+        // TODO: Error handling
+    }, []);
 
     return(
         <>

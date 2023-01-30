@@ -14,15 +14,6 @@ function SelectAll(props){
     const [isOther, setIsOther] = useState(false);
     const [showOther, setShowOther] = useState(false);
 
-    getAnswer(answerID).then(res => {
-        const answer = res.data.answer;
-
-        if(answer == "Other")
-            setIsOther(true);
-
-        setAnswerText(answer);
-    });
-
     const recordAnswer = () => {
         let recordedAnswers = [];
         if(window.sessionStorage.getItem("recordedAnswers"))
@@ -57,6 +48,16 @@ function SelectAll(props){
                 setIsSelected(true);
             }
         }
+
+        getAnswer(answerID).then(res => {
+            const answer = res.data.answer;
+
+            if(answer == "Other")
+                setIsOther(true);
+
+            setAnswerText(answer);
+        });
+        // TODO: Error handling
     }, []);
 
     return(
