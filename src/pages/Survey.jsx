@@ -45,8 +45,8 @@ function Home(){
 
             // TODO: Handle proper question tag usage
             getQuestionsByTag({ tags: ["starter-question"] }).then(res => {
-                if(res.data[0]){
-                    handleQueue(res.data[0], "New User");
+                if(res.data){
+                    handleQueue(res.data, "New User");
                 }
                 else{
                     // TODO: Randomize the questions being asked at this point
@@ -57,7 +57,7 @@ function Home(){
     }
 
     async function handleQueue(questions, tempUserID){
-        const answeredQuestions = (await getUserAnsweredQuestions(tempUserID)).data.answeredQuestions;
+        const answeredQuestions = tempUserID == "New User" ? [] : (await getUserAnsweredQuestions(tempUserID)).data.answeredQuestions;
         
         questions.forEach(questionData => {
             if(!answeredQuestions.includes(questionData._id)){
