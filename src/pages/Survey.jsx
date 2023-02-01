@@ -119,9 +119,22 @@ function Home(){
             }
 
             answers.sort((a, b) => a.data.answer.localeCompare(b.data.answer));
-        
+
+            const finalAnswers = [];
+            let otherAnswer;
+            for(let i = 0; i < answers.length; i++)
+            {
+                if(answers[i].data.answer != "Other")
+                    finalAnswers.push(answers[i])
+                else
+                    otherAnswer = answers[i];
+            }
+
+            if(otherAnswer)
+                finalAnswers.push(otherAnswer);
+
             currentAnswerIDs.length = 0;
-            answers.forEach(answer => {
+            finalAnswers.forEach(answer => {
                 currentAnswerIDs.push(answer.data._id);
             });
         }
