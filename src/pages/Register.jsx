@@ -27,33 +27,49 @@ function Register(){
             questionTags = ["starter-question"];
         }
 
-        if(password == repeatPassword){
-            const user = {
-                username: username,
-                email: email,
-                password: password,
-                questionTags: questionTags,
-                answeredQuestions: answeredQuestions,
-                answers: answers 
+        const emailRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+        if(email.toLowerCase().match(emailRegex))
+        {
+            if(username.length >= 4)
+            {
+                if(password == repeatPassword){
+                    const user = {
+                        username: username,
+                        email: email,
+                        password: password,
+                        questionTags: questionTags,
+                        answeredQuestions: answeredQuestions,
+                        answers: answers 
+                    }
+
+                    registerUser(user).then(res => {
+                        const newUser = res.data;
+                        window.localStorage.setItem("userID", newUser.userID);
+                        window.localStorage.setItem("email", newUser.email);
+                        window.localStorage.setItem("username", newUser.username);
+
+                        window.sessionStorage.clear();
+
+                        redirect("");
+                    }).catch(error => {
+                        // TODO: Better error handling
+                        console.log(error.message);
+                    });
+                }
+                else{
+                    // TODO: Better error handling
+                    console.error("Passwords do not match.");
+                }
             }
-
-            registerUser(user).then(res => {
-                const newUser = res.data;
-                window.localStorage.setItem("userID", newUser.userID);
-                window.localStorage.setItem("email", newUser.email);
-                window.localStorage.setItem("username", newUser.username);
-
-                window.sessionStorage.clear();
-
-                redirect("");
-            }).catch(error => {
-                // TODO: Better error handling
-                console.log(error.message);
-            });
+            else
+            {
+                console.error("Username is not long enough.");
+            }
         }
-        else{
+        else
+        {
             // TODO: Better error handling
-            console.error("Passwords do not match.");
+            console.error("Invalid email format.");
         }
     }
 
@@ -62,6 +78,7 @@ function Register(){
             <input
                 type="text"
                 value={username}
+                maxLength={20}
                 placeholder="Username"
                 onChange={event => setUsername(event.target.value)}
             />
