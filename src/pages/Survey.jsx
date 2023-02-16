@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 
-import Title from "../components/Title";
-
 import Question from "../components/Question";
 import Answer from "../components/Answer";
 import SubmitAnswer from "../components/SubmitAnswer";
@@ -148,7 +146,6 @@ function Home(){
 
     return(
         <>
-            <Title>Shared Traits</Title>
             <Question currentQuestion={currentQuestion}/>
 
             {currentAnswerIDs && currentAnswerIDs.map((answerID, index) => {

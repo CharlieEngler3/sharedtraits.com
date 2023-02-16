@@ -1,0 +1,64 @@
+:root{
+    --success: #CAFFBF;
+    --failure: #FFADAD;
+
+    --light-warning: #FEFFD6;
+    --strong-warning: #FFD6A5;
+
+    --link: #C2FAFF;
+    --link-interact: #C7DFFF;
+
+    --button: #709DFF;
+    --button-interact: #A0C4FF;
+
+    --primary: #171717;
+    --accent: #FFFFFC;
+}
+
+@font-face {
+    font-family: Lato;
+    src: url("../fonts/Lato/Lato-Bold.ttf");
+}
+
+body{
+    background-color: var(--primary);
+
+    font-family: Lato;
+    text-align: center;
+
+    transition: 0.2s;
+}
+
+.navbar{
+    background-color: var(--link-interact);
+
+    position: fixed;
+    width: 95%;
+    margin-left: 2.5%;
+    margin-right: 2.5%;
+}
+
+.nav-link{
+    background-color: var(--link);
+
+    color: var(--primary);
+    font-size: 2em;
+    text-decoration: none;
+    font-weight: bold;
+
+    margin-right: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+
+    border-radius: 3px;
+    border: 4px solid var(--accent);
+    box-shadow: 0 0 3px 0 var(--primary) inset; 
+}
+
+    .nav-link:hover{
+        background-color: var(--link-interact);
+
+        cursor: pointer;
+    }
