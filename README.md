@@ -9,6 +9,6 @@
     <li>Download Nodejs, npm, and MongoDB</li>
     <li>Import the example databases from api.sharedtraits.com into MongoDB</li>
     <li>Install all necessary packages for the front end and back end with npm install</li>
-    <li>In the front end folder, run with ```npm start```. In the back end folder, run with ```nodemon index.js```.</li>
+    <li>In the front end folder, run with npm start. In the back end folder, run with nodemon index.js</li>
     <li>Navigate to http://localhost:3000/ in a browser</li>
 <ol>
