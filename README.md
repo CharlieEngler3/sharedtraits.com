@@ -1,7 +1,7 @@
 <h1>A Proof-of-concept Social Media Website</h1>
 <br/>
 <h2>Note:</h2>
-<h3> This is still very much a work in progress. There are many planned changes.</h3>
+<h3> I'm no longer working on this. There are more productive projects that I could make.</h3>
 
 <h2>In order to run:</h2>
 <ol>
