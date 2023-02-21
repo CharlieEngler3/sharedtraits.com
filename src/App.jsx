@@ -19,7 +19,7 @@ function App(){
         <body>
             <Router>
                 <div className="navbar">
-                    <Link className="nav-link" style={{float: "left"}} to="/">Shared Traits</Link>
+                    <Link className="home-nav-link" style={{float: "left"}} to="/">Shared Traits</Link>
                     <Link className="nav-link" style={{float: "left"}} to="/addquestionoranswer">+</Link>
                     <Link className="nav-link" style={{float: "left"}} to="/editquestionoranswer">✎</Link>
 
