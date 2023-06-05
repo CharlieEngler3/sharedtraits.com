@@ -8,9 +8,9 @@ Running this is not recommended because it's underwhelming for the effort requir
 
 ### Prerequisites
 
-    - [Shared Traits API](https://github.com/CharlieEngler3/api.sharedtraits.com)
-    - [Node JS & NPM](https://nodejs.org/en/download)
-    - [MongoDB](https://www.mongodb.com/try/download/community)
+   - [Shared Traits API](https://github.com/CharlieEngler3/api.sharedtraits.com)
+   - [Node JS & NPM](https://nodejs.org/en/download)
+   - [MongoDB](https://www.mongodb.com/try/download/community)
 
 ### Installation
 
