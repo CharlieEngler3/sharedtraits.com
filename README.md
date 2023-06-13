@@ -30,6 +30,12 @@ Running this is not recommended because it's underwhelming for the effort requir
       
   5.) Navigate to http://localhost:3000/ in a browser
 
+## Images
+   Please note: This project is visually in very rough shape.
+   ![Shared Traits Home](https://i.imgur.com/qt7lSJX.png)
+   ![Shared Traits Login](https://i.imgur.com/Rl7rLfN.png)
+   ![Shared Traits Question Adder](https://i.imgur.com/1nHleL6.png)
+
 ## Authors
 
   - **Charlie Engler** - *Website Designer and Programmer* -
