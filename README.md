@@ -20,11 +20,11 @@ Running this is not recommended because it's underwhelming for the effort requir
   
     npm install
 
-  3.) In the front end folder, use the following command to start the front end of the website:
+  3.) In the front end folder (sharedtraits.com), use the following command to start the front end of the website:
   
     npm start
   
-  4.) In the back end folder, use the following command to start the back end server:
+  4.) In the back end folder (api.sharedtraits.com), use the following command to start the back end server:
   
     nodemon index.js
       
