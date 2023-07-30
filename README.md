@@ -1,10 +1,10 @@
 # Shared Traits
 
-I had this idea for a social media app that matched people with similar hobbies. I am no longer working on this and certainly didn't finish it, so it's very rough around the edges.
+I had this idea for a social media app that matched people with similar hobbies. I am no longer working on this, so it's very rough around the edges.
 
 ## Getting Started
 
-Running this is not recommended because it's underwhelming for the effort required to run it, but it's an application using the MERN stack.
+This application uses the MERN stack.
 
 ### Prerequisites
 
