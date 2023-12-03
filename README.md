@@ -1,6 +1,6 @@
 # Shared Traits
 
-I had this idea for a social media app that matched people with similar hobbies. I am no longer working on this, so it's very rough around the edges.
+I had this idea for a social media app that matched people with similar hobbies. I am no longer working on this project.
 
 ## Getting Started
 
